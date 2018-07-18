@@ -1,0 +1,173 @@
+###########
+# Autostart
+###########
+exec --no-startup-id udiskie
+exec --no-startup-id compton
+exec_always --no-startup-id feh --no-fehbg --bg-fill ~/.local/share/wallpaper
+
+############
+# Appearance
+############
+hide_edge_borders smart
+new_float 1pixel
+new_window 1pixel
+
+font pango:sans-serif Bold 10
+
+client.background #000000
+
+# class                 border  background foreground indicator child_border
+client.focused          #5294e2 #5294e2    #f5f6f7    #f5f6f7   #5294e2
+client.focused_inactive #2f343f #2f343f    #f5f6f7    #5294e2   #2f343f
+client.placeholder      #0c0c0c #0c0c0c    #f5f6f7    #0c0c0c   #0c0c0c
+client.unfocused        #2f343f #2f343f    #f5f6f7    #5294e2   #2f343f
+client.urgent           #cc575d #cc575d    #f5f6f7    #cc575d   #cc575d
+
+bar {
+	font pango:sans-serif 10
+	position top
+	separator_symbol " "
+	status_command python -B /usr/bin/i3pystatus -c ~/.config/i3pystatus.py
+
+	colors {
+		background #2f343f
+		separator  #afb8c5
+		statusline #f5f6f7
+
+		# class            border  background foreground
+		active_workspace   #afb8c5 #afb8c5    #f5f6f7
+		binding_mode       #ff8c00 #ff8c00    #ffffff
+		focused_workspace  #5294e2 #5294e2    #f5f6f7
+		inactive_workspace #2f343f #2f343f    #f5f6f7
+		urgent_workspace   #cc575d #cc575d    #f5f6f7
+	}
+}
+
+############
+# Workspaces
+############
+# Switch to the previously selected workspace, when trying to switch
+# to the current one.
+workspace_auto_back_and_forth yes
+
+#############
+# Keybindings
+#############
+# $mod -- Perform action on parent.
+# $mod+Ctrl -- Run command.
+# $mod+Shift -- Perform action on a window/container.
+
+set $mod Mod4
+floating_modifier $mod+Shift
+
+# Modes
+mode "resize" {
+	bindsym Down resize shrink height 10 px or 10 ppt
+	bindsym Left resize shrink width 10 px or 10 ppt
+	bindsym Right resize grow width 10 px or 10 ppt
+	bindsym Up resize grow height 10 px or 10 ppt
+
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+}
+
+# Change mode of floating containers.
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Focus container.
+bindsym $mod+Down focus down
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+c focus child
+bindsym $mod+p focus parent
+
+# Kill currently focused container.
+bindsym $mod+Shift+q kill
+
+# Move container.
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Up move up
+
+# Move container to workspace.
+bindsym $mod+Shift+0 move scratchpad
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+Tab move container to workspace back_and_forth
+
+bindsym $mod+Shift+KP_Insert move scratchpad
+bindsym $mod+Shift+KP_End move container to workspace 1
+bindsym $mod+Shift+KP_Down move container to workspace 2
+bindsym $mod+Shift+KP_Next move container to workspace 3
+bindsym $mod+Shift+KP_Left move container to workspace 4
+bindsym $mod+Shift+KP_Begin move container to workspace 5
+bindsym $mod+Shift+KP_Right move container to workspace 6
+bindsym $mod+Shift+KP_Home move container to workspace 7
+bindsym $mod+Shift+KP_Up move container to workspace 8
+bindsym $mod+Shift+KP_Prior move container to workspace 9
+bindsym $mod+Shift+KP_Add move container to workspace back_and_forth
+
+# Resize container.
+bindsym $mod+Shift+r mode resize
+
+# Split container in (h)orizontal or (v)direction.
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# Start applications.
+bindsym $mod+Ctrl+Return exec --no-startup-id st
+bindsym $mod+Ctrl+d exec --no-startup-id dmenu_run
+bindsym $mod+Ctrl+l exec --no-startup-id i3lock -c 000000
+bindsym Menu exec --no-startup-id dmenu_run
+bindsym Mod1+Tab exec --no-startup-id rofi -show window
+bindsym Scroll_Lock exec --no-startup-id i3lock -c 000000
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Switch to workspace.
+bindsym $mod+0 scratchpad show
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Mod2+KP_0 scratchpad show
+bindsym $mod+Mod2+KP_1 workspace 1
+bindsym $mod+Mod2+KP_2 workspace 2
+bindsym $mod+Mod2+KP_3 workspace 3
+bindsym $mod+Mod2+KP_4 workspace 4
+bindsym $mod+Mod2+KP_5 workspace 5
+bindsym $mod+Mod2+KP_6 workspace 6
+bindsym $mod+Mod2+KP_7 workspace 7
+bindsym $mod+Mod2+KP_8 workspace 8
+bindsym $mod+Mod2+KP_9 workspace 9
+bindsym $mod+Mod2+KP_Add workspace back_and_forth
+
+# Toggle fullscreen mode for currently focused container.
+bindsym $mod+Shift+f fullscreen toggle
+
+##############
+# Window rules
+##############
+for_window [class="^Firefox$" window_role="^(?!browser$)"] floating enable
+for_window [class="^MP3Diags$" window_type="normal"] floating disable
+for_window [class="^Pavucontrol$"] floating enable
+for_window [class="^Sxiv$"] floating enable
+for_window [window_type="splash"] border none
