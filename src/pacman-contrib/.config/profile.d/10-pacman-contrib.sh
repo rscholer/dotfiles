@@ -19,45 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
+# checkupdate: Path for database
+export CHECKUPDATES_DB="${XDG_RUNTIME_DIR}/checkupdates-db"
 
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-	"${HOME}/.config/systemd/user"
-	"${HOME}/.gnupg"
-	"${HOME}/.ssh"
-)
-
-PACKAGES=(
-	'colorgcc'
-	'git'
-	'gnupg'
-	'htop'
-	'less'
-	'pacman'
-	'pacman-contrib'
-	'shells'
-	'ssh'
-	'tmux'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 444 "${HOME}/.config/htop/htoprc"
-_chmod 700 "${HOME}/.gnupg"
-_chmod 700 "${HOME}/.ssh"
+# pacdiff: Search these directories
+export DIFFSEARCHPATH='/boot /etc /usr /var'
