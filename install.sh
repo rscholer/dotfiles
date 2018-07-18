@@ -40,6 +40,7 @@ DIRECTORIES=(
 
 PACKAGES=(
 	'colorgcc'
+	'git'
 	'gnupg'
 	'shells'
 	'ssh'

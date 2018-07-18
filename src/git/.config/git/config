@@ -1,0 +1,65 @@
+[alias]
+	br = "branch"
+	ci = "commit"
+	cia = "commit --all"
+	co = "checkout"
+	current = "!git rev-parse --abbrev-ref HEAD"
+	dc = "diff --cached"
+	df = "diff"
+	ignore = "!curl -L -s https://www.gitignore.io/api/$@"
+	incoming = "!git log --oneline ..origin/$(git current)"
+	last = "log -1 HEAD"
+	lg = "log --graph --date=short --pretty=format:'%Cred%h%Creset %Cgreen%ad%Creset %s%C(yellow)%d%Creset %C(bold blue)<%an>%Creset' --abbrev-commit"
+	mg = "merge"
+	mga = "merge --abort"
+	mgc = "merge --continue"
+	outgoing = "!git log --oneline origin/$(git current).."
+	publish = "!git push --set-upstream origin $(git current)"
+	rb = "rebase"
+	rba = "rebase --abort"
+	rbc = "rebase --continue"
+	rbi = "rebase --interactive"
+	rebase = "rebase --preserve-merges"
+	root = "rev-parse --show-toplevel"
+	st = "status"
+	stat = "diff --shortstat"
+	unpublish = "!git push origin --delete $(git current)"
+	wip = "commit --no-gpg-sign --message WIP"
+	wipa = "commit --all --no-gpg-sign --message WIP"
+[color]
+	ui = auto
+[core]
+	pager =
+[commit]
+	gpgsign = true
+[github]
+	user = "rscholer"
+[merge]
+	tool = "nvim -d"
+[push]
+	default = "simple"
+[status]
+	short = true
+[submodule]
+	fetchJobs = 0
+	recurse = true
+[tig]
+	vertical-split = 0
+[url "git://git.suckless.org/"]
+	insteadOf = "suckless:"
+[url "git@github.com:"]
+	pushInsteadOf = "gh:"
+[url "git@gitlab.com:"]
+	pushInsteadOf = "gl:"
+[url "https://github.com/"]
+	insteadOf = "gh:"
+[url "https://gitlab.com/"]
+	insteadOf = "gl:"
+[url "https://aur.archlinux.org/"]
+	insteadOf = "aur:"
+[url "ssh+git://aur@aur.archlinux.org/"]
+	pushInsteadOf = "aur:"
+[user]
+	email = "rascholer@gmail.com"
+	name = "Raphael Scholer"
+	signingkey = "81538BF8318D5B7B"
