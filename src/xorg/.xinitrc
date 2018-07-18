@@ -19,54 +19,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
+# Load system-wide xinitrc configurations.
+if [[ -d "/etc/X11/xinit/xinitrc.d" ]]; then
+	for file in '/etc/X11/xinit/xinitrc.d'/*.sh; do
+		if [[ -x "${file}" ]]; then
+			source "${file}"
+		fi
+	done
 
-	path="${2}"
-	permissions="${1}"
+	unset file
+fi
 
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
+# Setup environment for X sessions.
+if [[ -f  "${HOME}/.xprofile" ]]; then
+	source "${HOME}/.xprofile"
+fi
 
-DIRECTORIES=(
-	"${HOME}/.config/cmus"
-	"${HOME}/.config/nvim/autoload"
-	"${HOME}/.config/profile.d"
-	"${HOME}/.config/systemd/user"
-	"${HOME}/.config/xorg/xprofile.d"
-	"${HOME}/.config/xorg/xsession.d"
-	"${HOME}/.gnupg"
-	"${HOME}/.local/bin"
-	"${HOME}/.ssh"
-)
+# Merge user Xdefaults.
+if [[ -f "${HOME}/.Xresources" ]] && which xrdb >/dev/null 2>&1; then
+	xrdb -merge -I"${HOME}" "${HOME}/.Xresources" &
+fi
 
-PACKAGES=(
-	'cmus'
-	'colorgcc'
-	'cower'
-	'git'
-	'gnupg'
-	'htop'
-	'less'
-	'neovim'
-	'pacman'
-	'pacman-contrib'
-	'shells'
-	'ssh'
-	'tmux'
-	'xorg'
-)
+# Load keyboard tweaks.
+if [[ -f "${HOME}/.Xmodmap" ]] && which xmodmap >/dev/null 2>&1; then
+	xmodmap "${HOME}/.Xmodmap" &
+fi
 
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
+# Load session specific commands.
+if [[ -f "${HOME}/.xsession" ]]; then
+	source "${HOME}/.xsession"
+fi
 
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 444 "${HOME}/.config/htop/htoprc"
-_chmod 700 "${HOME}/.gnupg"
-_chmod 700 "${HOME}/.ssh"
+# Start window manager / desktop environment.
+exec i3

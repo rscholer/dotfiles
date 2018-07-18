@@ -1,0 +1,6 @@
+! Replace Caps Lock with Shift.
+keycode 66 = Shift_L NoSymbol Shift_L
+
+! Always use a period on the numpad.
+! Useful for programming / mathematics.
+keycode 91 = KP_Delete KP_Decimal KP_Delete KP_Decimal
