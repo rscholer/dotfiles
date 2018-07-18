@@ -19,51 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
-
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/cmus"
-	"${HOME}/.config/nvim/autoload"
-	"${HOME}/.config/profile.d"
-	"${HOME}/.config/systemd/user"
-	"${HOME}/.gnupg"
-	"${HOME}/.local/bin"
-	"${HOME}/.ssh"
-)
-
-PACKAGES=(
-	'cmus'
-	'colorgcc'
-	'cower'
-	'git'
-	'gnupg'
-	'htop'
-	'less'
-	'neovim'
-	'pacman'
-	'pacman-contrib'
-	'shells'
-	'ssh'
-	'tmux'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 444 "${HOME}/.config/htop/htoprc"
-_chmod 700 "${HOME}/.gnupg"
-_chmod 700 "${HOME}/.ssh"
+# Set nvim as the default for multiple applications.
+export DIFFPROG='nvim -d'
+export EDITOR='nvim'
+export VISUAL='nvim'
