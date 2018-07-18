@@ -58,6 +58,7 @@ PACKAGES=(
 	'gtk2'
 	'gtk3'
 	'htop'
+	'i3pystatus'
 	'less'
 	'neovim'
 	'pacman'
