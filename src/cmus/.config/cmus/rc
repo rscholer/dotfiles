@@ -1,0 +1,12 @@
+# General settings
+##################
+colorscheme green
+set aaa_mode=artist
+set output_plugin=pulse
+set replaygain=album-preferred
+set smart_artist_sort=false
+
+# Keybindings
+#############
+bind -f common Q quit -i
+bind -f common q shell tmux detach -s cmus

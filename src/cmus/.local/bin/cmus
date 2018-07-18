@@ -19,49 +19,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
+# Always run cmus inside a dedicated cmus session.
 
-	path="${2}"
-	permissions="${1}"
+for arg in "${@}"; do
+	case "${arg}" in
+		"--help")   	exec /usr/bin/cmus --help;;
+		"--plugins")	exec /usr/bin/cmus --plugins;;
+		"--version")	exec /usr/bin/cmus --version;;
+	esac
+done
 
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
+if ! tmux list-sessions 2>&1 | grep -q "^cmus: "; then
+	tmux new -d -s cmus /usr/bin/cmus "${@}"
+	tmux set-option -t cmus status off
+fi
 
-DIRECTORIES=(
-	"${HOME}/.config/cmus"
-	"${HOME}/.config/profile.d"
-	"${HOME}/.config/systemd/user"
-	"${HOME}/.gnupg"
-	"${HOME}/.local/bin"
-	"${HOME}/.ssh"
-)
-
-PACKAGES=(
-	'cmus'
-	'colorgcc'
-	'cower'
-	'git'
-	'gnupg'
-	'htop'
-	'less'
-	'pacman'
-	'pacman-contrib'
-	'shells'
-	'ssh'
-	'tmux'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 444 "${HOME}/.config/htop/htoprc"
-_chmod 700 "${HOME}/.gnupg"
-_chmod 700 "${HOME}/.ssh"
+exec tmux attach -t cmus >/dev/null
