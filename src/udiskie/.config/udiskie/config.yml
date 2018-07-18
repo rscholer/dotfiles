@@ -1,0 +1,10 @@
+---
+program_options:
+    automount: true
+    notify: true
+    tray: false
+
+device_config:
+    # Huawei mobile phones
+    - id_label: "HiSuite"
+      ignore: true

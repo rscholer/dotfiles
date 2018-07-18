@@ -62,6 +62,7 @@ PACKAGES=(
 	'shells'
 	'ssh'
 	'tmux'
+	'udiskie'
 	'xorg'
 )
 
