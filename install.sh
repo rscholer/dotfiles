@@ -72,6 +72,7 @@ PACKAGES=(
 	'pacman'
 	'pacman-contrib'
 	'pipenv'
+	'python'
 	'qt'
 	'quodlibet'
 	'rofi'
