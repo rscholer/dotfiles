@@ -42,6 +42,7 @@ PACKAGES=(
 	'colorgcc'
 	'git'
 	'gnupg'
+	'less'
 	'shells'
 	'ssh'
 )
