@@ -58,6 +58,7 @@ PACKAGES=(
 	'neovim'
 	'pacman'
 	'pacman-contrib'
+	'qt'
 	'shells'
 	'ssh'
 	'tmux'
@@ -71,6 +72,7 @@ mkdir --verbose --parents ${DIRECTORIES[*]}
 stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
 
 # Fix permissions.
+_chmod 444 "${HOME}/.config/Trolltech.conf"
 _chmod 444 "${HOME}/.config/htop/htoprc"
 _chmod 700 "${HOME}/.gnupg"
 _chmod 700 "${HOME}/.ssh"
