@@ -35,6 +35,7 @@ DIRECTORIES=(
 	"${HOME}/.config/cmus"
 	"${HOME}/.config/gtk-2.0"
 	"${HOME}/.config/gtk-3.0"
+	"${HOME}/.config/mpv"
 	"${HOME}/.config/nvim/autoload"
 	"${HOME}/.config/profile.d"
 	"${HOME}/.config/systemd/user"
@@ -61,6 +62,7 @@ PACKAGES=(
 	'i3'
 	'i3pystatus'
 	'less'
+	'mpv'
 	'neovim'
 	'pacman'
 	'pacman-contrib'
