@@ -50,6 +50,7 @@ PACKAGES=(
 	'colorgcc'
 	'compton'
 	'cower'
+	'fontconfig'
 	'git'
 	'gnupg'
 	'gtk2'
