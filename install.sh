@@ -40,6 +40,7 @@ DIRECTORIES=(
 
 PACKAGES=(
 	'colorgcc'
+	'cower'
 	'git'
 	'gnupg'
 	'htop'
