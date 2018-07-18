@@ -68,6 +68,7 @@ PACKAGES=(
 	'neovim'
 	'pacman'
 	'pacman-contrib'
+	'pipenv'
 	'qt'
 	'quodlibet'
 	'rofi'
