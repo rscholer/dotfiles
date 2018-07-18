@@ -19,38 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
-
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-	"${HOME}/.config/systemd/user"
-	"${HOME}/.gnupg"
-	"${HOME}/.ssh"
-)
-
-PACKAGES=(
-	'colorgcc'
-	'gnupg'
-	'shells'
-	'ssh'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 700 "${HOME}/.gnupg"
-_chmod 700 "${HOME}/.ssh"
+# Add colorgcc directory to $PATH.
+if [[ -d '/usr/lib/colorgcc/bin' ]]; then
+	export PATH="/usr/lib/colorgcc/bin:${PATH}"
+fi
