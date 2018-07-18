@@ -44,6 +44,7 @@ PACKAGES=(
 	'gnupg'
 	'htop'
 	'less'
+	'pacman'
 	'shells'
 	'ssh'
 	'tmux'
