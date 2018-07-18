@@ -19,33 +19,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
-
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-	"${HOME}/.ssh"
-)
-
-PACKAGES=(
-	'shells'
-	'ssh'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
-
-# Fix permissions.
-_chmod 700 "${HOME}/.ssh"
+# Use GPG agent as a SSH agent.
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
