@@ -19,28 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
-
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-)
-
-PACKAGES=(
-	'shells'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
+# Set LS_COLORS.
+if [[ -f "${XDG_CONFIG_HOME:-${HOME}/.config}/dircolors" ]]; then
+	source "${XDG_CONFIG_HOME:-${HOME}/.config}/dircolors"
+else
+	eval "$(dircolors --sh)"
+fi

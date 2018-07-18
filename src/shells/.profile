@@ -19,28 +19,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
+# Set up environment.
+if [[ -d "${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d" ]]; then
+	for file in "${XDG_CONFIG_HOME:-${HOME}/.config}/profile.d"/*.sh; do
+		if [[ -x "${file}" ]]; then
+			source "${file}"
+		fi
+	done
 
-	path="${2}"
-	permissions="${1}"
-
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-)
-
-PACKAGES=(
-	'shells'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
+	unset file
+fi

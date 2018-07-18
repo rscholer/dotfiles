@@ -19,28 +19,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-function _chmod() {
-	local permission
-	local path
+# Add some directories to path.
+local_bin="${XDG_DATA_HOME:-${HOME}/.local/share}/../bin"
+local_bin="$(readlink -f "${local_bin}")"
 
-	path="${2}"
-	permissions="${1}"
+[[ -d "${local_bin}" ]] && export PATH="${local_bin}:${PATH}"
 
-	if [[ -e "${path}" ]]; then
-		chmod --changes "${permissions}" "${path}"
-	fi
-}
-
-DIRECTORIES=(
-	"${HOME}/.config/profile.d"
-)
-
-PACKAGES=(
-	'shells'
-)
-
-# Create needed directories.
-mkdir --verbose --parents ${DIRECTORIES[*]}
-
-# Install packages.
-stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
+unset local_bin
