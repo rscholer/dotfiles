@@ -43,6 +43,7 @@ DIRECTORIES=(
 	"${HOME}/.config/xorg/xsession.d"
 	"${HOME}/.gnupg"
 	"${HOME}/.local/bin"
+	"${HOME}/.local/share/zsh"
 	"${HOME}/.ssh"
 )
 
@@ -89,6 +90,7 @@ PACKAGES=(
 	'udiskie'
 	'user-dirs'
 	'xorg'
+	'zsh'
 )
 
 # Create needed directories.

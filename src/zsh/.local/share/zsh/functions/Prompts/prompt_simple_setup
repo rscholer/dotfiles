@@ -1,0 +1,244 @@
+#!/bin/zsh
+# Copyright (c) 2018 Raphael Scholer
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+emulate -L zsh
+
+function prompt_simple_checkcommand() {
+	# Check if command has an expected value.
+
+	emulate -L zsh
+
+	local cmnd
+	local expected_path
+	local test_path
+
+	cmnd="${1}"
+	expected_path="${commands[${2}]}"
+	test_path="${commands[${1}]}"
+
+	if [[ "${test_path}" == "${expected_path}" ]]; then
+		return 0
+	elif [[ "${cmnd:A}" == "${expected_path}" ]]; then
+		[[ -x "${cmnd}" ]] && return 0
+	fi
+
+	return 1
+}
+
+function prompt_simple_help() {
+	# Print help information.
+
+	emulate -L zsh
+
+	<<-EOH
+	This theme is heavily inspired by sindresorhus' Pure Zsh theme
+	<https://github.com/sindresorhus/pure>.
+
+	But it greatly differs in some areas:
+	    - Follows official Zsh prompt practices.
+	    - Static definition of **all**prompt.
+	      This reduces processing time before displaying the prompt.
+	    - Doesn't modify the title of the terminal emulator.
+	    - VCS information is retrieved through vcs_info.
+	      This makes these information VCS independent.
+	      See zshcontrib(1) for more information.
+	    - No async functionality.
+		  This keeps the code simple and shouldn't matter even when using older
+		  computures.
+	    - No display of command execution time.
+	    - Username and hostname are also displayed when running as root.
+	    - Expose most information used by PS1 through "$psvar".
+	      Those values can not be influenced.
+
+	PS1 features:
+	    - A line break is inserted before PS1 to improve readablilty.
+	    - Display the current VCS branch.
+	    - Display miscelleanous VCS information.
+	    - Name of the current virtual Python environment.
+	    - Prevenv the replacement of PS1 through virtualenv.
+	    - Show information about SSH connections.
+
+	RPS1 features:
+	    - Display information about background jobs.
+
+	RPS2 features:
+	    - Display information about the current command that needs to be
+	      completed in reverse.
+
+	Misc. features:
+	    - All prompts are uniformely themed.
+	EOH
+}
+
+function prompt_simple_precmd() {
+	# This function populates $psvar with values used py PS1.
+	#
+	# The following indexes are defined:
+	#	1 - Marker that indicates if a line break should be inserted before PS1.
+	#	2 - VCS: Current branch information, supplied by vcs_info.
+	#	3 - VCS: Miscelleanous information, supplied by vcs_info.
+	#	4 - Name of the current virtual Python environment.
+	#	5 - Marker that indicates a existing SSH connection.
+
+	emulate -L zsh
+
+	# Re-initialize $psvar.
+	psvar=()
+
+	# Determine if a newline needs to be printed before PS1.
+	[[ -n ${prompt_simple_newline} ]] && psvar[1]=1 || prompt_simple_newline=1
+
+	# Collect VCS information.
+	[[ -n "${vcs_info_msg_0_}" ]] && psvar[2]="${vcs_info_msg_0_}"
+	[[ -n "${vcs_info_msg_1_}" ]] && psvar[3]="${vcs_info_msg_1_}"
+
+	# Name of the current virtual environment.
+	psvar[4]="${VIRTUAL_ENV:t}"
+
+	# Determine if we're in a SSH session.
+	[[ -n "${SSH_CONNECTION}" ]] && psvar[5]=1
+
+	# Prevent changing of PS1 through virtualenv.
+	if [[ -n ${_OLD_VIRTUAL_PS1} ]]; then
+		PS1="${_OLD_VIRTUAL_PS1}"
+		unset _OLD_VIRTUAL_PS1
+	fi
+
+	return 0
+}
+
+function prompt_simple_preexec() {
+	# Help determine if a linebreak needs to be inserted.
+
+	emulate -L zsh
+
+	local cmnd
+
+	cmnd="${2[(w)1]}"
+
+	if [[ "${cmnd}" == 'exec' ]]; then
+		print -n '\n'
+	elif [[ "${cmnd}" == ('clear'|'reset') ]]; then
+		unset prompt_simple_newline
+	elif prompt_simple_checkcommand "${cmnd}" 'ssh'; then
+		print -n '\n'
+	elif prompt_simple_checkcommand "${cmnd}" 'zsh'; then
+		print -n '\n'
+	fi
+
+	return 0
+}
+
+function prompt_simple_preview() {
+	# Print a preview of the theme.
+
+	emulate -L zsh
+
+	setopt LOCAL_OPTIONS
+	setopt PROMPT_SUBST
+
+	psvar=()
+	print   'simple theme PS1 (default):'
+	true
+	print -P "${PS1}command arg1 arg2 ... argn"
+
+	psvar=()
+	print   '\nsimple theme PS1 (default, error in last command):'
+	false
+	print -P "${PS1}command arg1 arg2 ... argn"
+
+	psvar=('' 'git:master' $'\u21e1\u21e3' 'venv' '1')
+	print   '\nsimple theme PS1 (everything):'
+	true
+	print -P "${PS1}command arg1 arg2 ... argn"
+
+	return 0
+}
+
+function prompt_simple_setup() {
+	# Setup prompt.
+
+	emulate -L zsh
+
+	autoload -Uz add-zsh-hook
+
+	typeset -g prompt_simple_newline
+	local -A prompt_symbol
+
+	# Options for prompt.
+	prompt_opts=(percent subst)
+
+	# Set prompt symbol.
+	if [[ "${TERM}" == (*bsd*|dumb|linux) ]]; then
+		prompt_symbol=(
+			'normal' '>'
+			'reversed' '<'
+		)
+	else
+		prompt_symbol=(
+			'normal' $'\u276f'
+			'reversed' $'\u276e'
+		)
+	fi
+
+	# Set primary prompt.
+	PS1='%(1V.${prompt_newline}.)'
+	PS1+='%F{cyan}%~%f'
+	PS1+='%(2V. %B%F{black}%2v%f%b.)'
+	PS1+='%(3V. %B%F{cyan}%3v%f%b.)'
+	PS1+='%(!. %B%F{red}%n%F{white}@%(5V.%F{green}.)%m%f%b.'
+	PS1+='%(5V. %B%F{white}%n%F{green}%m%f%b.))'
+	PS1+='%(4V. %B%F{magenta}%4v%f%b.)'
+	PS1+='${prompt_newline}'
+	PS1+="%B%(?.%F{blue}.%F{red})${prompt_symbol[normal]} %f%b"
+
+	# Set secondary prompt, which is shwon when the shell needs more
+	# information to complete a command.
+	PS2='%B%F{black}%_%f%b'
+	PS2+="%B%(?.%F{blue}.%F{red})${prompt_symbol[normal]} %f%b"
+
+	# Selection prompt used within a 'select' loop.
+	PS3='%B%F{black}select%f%b'
+	PS3+="%B%(?.%F{blue}.%F{red})${prompt_symbol[normal]} %f%b"
+
+	# The execution trace prompt.
+	PS4='%B&F{black}+%n:%i%f%b'
+	PS4+="%B%(?.%F{blue}.%F{red})${prompt_symbol[normal]} %f%b"
+
+	# Primary right-hand side prompt. Displayed when PS1 is shown.
+	RPS1=' %(1j.%B%F{black}Jobs: %j%f%b.)'
+
+	# Secondary right-hand side prompt. Displayed when PS2 is shown.
+	RPS2=" %B%(?.%F{blue}.%F{red})${prompt_symbol[reversed]}"
+	RPS2+='%F{black}%^%f%b'
+
+	# Register hooks (unregistering is taken care of by the promptinit
+	# system).
+	add-zsh-hook 'precmd' 'prompt_simple_precmd'
+	add-zsh-hook 'preexec' 'prompt_simple_preexec'
+
+	# Register simple cleanup hooks.
+	prompt_cleanup 'unset prompt_simple_newline'
+
+	return 0
+}
+
+prompt_simple_setup "${@}"

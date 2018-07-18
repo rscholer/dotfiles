@@ -1,0 +1,45 @@
+#!/bin/zsh
+# Copyright (c) 2018 Raphael Scholer
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# Show marker if there are untracked files.
+# The marker can be changed through `zstyle ':vcs_info:*' untrackedstr` the
+# default is "T".
+
+emulate -L zsh
+
+local    untracked_files
+local -i untrackedstr
+
+# Get untrackedstr.
+untrackedstr='T'
+zstyle -a ":vcs_info:${vcs}" untrackedstr 'untrackedstr'
+
+# Make sure we run this hook as few times as possible.
+[[ "${vcs}" == 'git' ]] || return 1
+[[ "${hook_com[staged]}" != *${untrackedstr} ]] || return 1
+
+# Determine whether untracked files exist.
+git status --porcelain |grep '??' &>|/dev/null && untracked_files=1
+
+# Amend stagedstr.
+[[ "${untracked_files}" -eq 1 ]] && hook_com[staged]+="${untrackedstr}"
+
+return 0

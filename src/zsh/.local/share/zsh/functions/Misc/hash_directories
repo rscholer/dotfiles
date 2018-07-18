@@ -1,0 +1,60 @@
+#!/bin/zsh
+# Copyright (c) 2018 Raphael Scholer
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# Dynamically hash directories.
+
+emulate -L zsh
+
+local    _WORKON_HOME
+local    _XDG_DOCUMENTS_DIR
+local -A HASH_DIRECTORIES
+local    dir
+local    name
+
+_WORKON_HOME="${WORKON_HOME:-${XDG_DATA_HOME:-${HOME}/.local/share}/virtualenvs}"
+_XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-${HOME}/Documents}"
+
+HASH_DIRECTORIES=(
+	# Path                                  Name
+	"${_WORKON_HOME}"                       'virtualenvs'
+	"${_XDG_DOCUMENTS_DIR}/Code"            'vcs-root'
+	"${_XDG_DOCUMENTS_DIR}/Code/Archive"    'vcs-archive'
+	"${_XDG_DOCUMENTS_DIR}/Code/Local"      'vcs-local'
+	"${_XDG_DOCUMENTS_DIR}/Code/Remote"     'vcs-remote'
+	"${HOME}/mtp"                           'mtp'
+	"${XDG_RUNTIME_DIR}"                    'run'
+	"/media/${USERNAME}"                    'media'
+	"/run/media/${USERNAME}"                'media'
+	'/var/cache/pacman/pkg'                 'paccache'
+	'/var/log'                              'log'
+	'/var/log/old'                          'alog'
+	"/var/spool/cups-pdf/${USERNAME}"       'cups-pdf'
+)
+
+for dir name in "${(@kv)HASH_DIRECTORIES}"; do
+	if [[ -n "${nameddirs[${name}]}" && ! -d "${nameddirs[${name}]}" ]]; then
+		unhash -d "${name}"
+	elif [[ -d ${dir} ]]; then
+		hash -d "${name}=${dir}"
+	fi
+done
+
+return 0
