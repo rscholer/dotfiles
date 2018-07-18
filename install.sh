@@ -71,6 +71,7 @@ PACKAGES=(
 	'numlockx'
 	'pacman'
 	'pacman-contrib'
+	'pip'
 	'pipenv'
 	'python'
 	'qt'
