@@ -65,6 +65,7 @@ PACKAGES=(
 	'i3pystatus'
 	'less'
 	'libdvdcss'
+	'libreoffice'
 	'mpv'
 	'neovim'
 	'pacman'
