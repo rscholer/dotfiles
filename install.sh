@@ -48,6 +48,7 @@ DIRECTORIES=(
 PACKAGES=(
 	'cmus'
 	'colorgcc'
+	'compton'
 	'cower'
 	'git'
 	'gnupg'
