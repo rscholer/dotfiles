@@ -51,6 +51,7 @@ PACKAGES=(
 	'colorgcc'
 	'compton'
 	'cower'
+	'dunst'
 	'fontconfig'
 	'git'
 	'gnupg'
