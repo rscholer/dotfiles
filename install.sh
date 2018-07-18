@@ -68,6 +68,7 @@ PACKAGES=(
 	'libreoffice'
 	'mpv'
 	'neovim'
+	'numlockx'
 	'pacman'
 	'pacman-contrib'
 	'pipenv'
