@@ -1,0 +1,17 @@
+!!!!!!!!!!
+! Settings
+!!!!!!!!!!
+rofi.cycle: false
+rofi.font: sans-serif 10
+rofi.hide-scrollbar: true
+rofi.kb-cancel: Alt+Tab,Escape,Menu
+rofi.terminal: st
+
+!!!!!!!!!!
+! Themeing
+!!!!!!!!!!
+rofi.color-active: #2f343f,#f5f6f7,#2f343f,#5294e2,#f5f6f7
+rofi.color-enabled: true
+rofi.color-normal: #2f343f,#f5f6f7,#2f343f,#5294e2,#f5f6f7
+rofi.color-urgent: #cc575d,#f5f6f7,#cc575d,#5294e2,#f5f6f7
+rofi.color-window: #2f343f,#2f343f,#afb8c5
