@@ -75,6 +75,7 @@ PACKAGES=(
 	'qt'
 	'quodlibet'
 	'rofi'
+	'rsync'
 	'shells'
 	'ssh'
 	'sxiv'
