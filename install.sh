@@ -33,10 +33,13 @@ function _chmod() {
 
 DIRECTORIES=(
 	"${HOME}/.config/profile.d"
+	"${HOME}/.config/systemd/user"
+	"${HOME}/.gnupg"
 	"${HOME}/.ssh"
 )
 
 PACKAGES=(
+	'gnupg'
 	'shells'
 	'ssh'
 )
@@ -48,4 +51,5 @@ mkdir --verbose --parents ${DIRECTORIES[*]}
 stow --restow --dir="./src" --target "${HOME}" ${PACKAGES[*]}
 
 # Fix permissions.
+_chmod 700 "${HOME}/.gnupg"
 _chmod 700 "${HOME}/.ssh"
