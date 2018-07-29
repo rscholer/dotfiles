@@ -73,6 +73,7 @@ PACKAGES=(
 	'pacman-contrib'
 	'pip'
 	'pipenv'
+	'pylint'
 	'python'
 	'qt'
 	'quodlibet'
