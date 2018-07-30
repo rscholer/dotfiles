@@ -1,0 +1,4 @@
+[flake8]
+import-order-style = appnexus
+max-complexity = 10
+max-line-length = 90

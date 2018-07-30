@@ -54,6 +54,7 @@ PACKAGES=(
 	'cower'
 	'dunst'
 	'firefox'
+	'flake8'
 	'fontconfig'
 	'gimp'
 	'git'
