@@ -74,6 +74,7 @@ PACKAGES=(
 	'pacman-contrib'
 	'pip'
 	'pipenv'
+	'profile-cleaner'
 	'pylint'
 	'python'
 	'qt'
