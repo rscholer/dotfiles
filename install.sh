@@ -85,6 +85,7 @@ PACKAGES=(
 	'sxiv'
 	'tmux'
 	'udiskie'
+	'user-dirs'
 	'xorg'
 )
 
