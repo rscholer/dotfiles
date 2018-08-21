@@ -52,6 +52,7 @@ PACKAGES=(
 	'colorgcc'
 	'compton'
 	'cower'
+	'downgrade'
 	'dunst'
 	'firefox'
 	'flake8'
