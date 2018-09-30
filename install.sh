@@ -51,7 +51,6 @@ PACKAGES=(
 	'a11y'
 	'cmus'
 	'colorgcc'
-	'compton'
 	'cower'
 	'downgrade'
 	'dunst'
