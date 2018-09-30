@@ -30,8 +30,7 @@ PLUGIN_ROOT="${ZDATADIR}/plugins"
 for plugin in "${PLUGIN_ROOT}"/*(FN); do
 	print -P "${PRINT_NEWLINE:+\n}%F{blue}%B::%b%f ${plugin:t}"
 
-	cd "${plugin}"
-	git pull --prune
+	(cd "${plugin}"; git pull --prune)
 
 	PRINT_NEWLINE=1
 done
