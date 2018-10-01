@@ -76,6 +76,7 @@ fi
 [[ -n ${commands[top]} ]] && alias utop="top -u ${USERNAME}"
 
 # Network management
+[[ -n ${commands[curl]} ]] && alias ipe='curl ipinfo.io/ip'
 [[ -n ${commands[ip]} ]] && alias ip='ip -color -human-readable -iec'
 [[ -n ${commands[iwmon]} ]] && alias iwmon='iwon --nortnl'
 [[ -n ${commands[ping4]} ]] && alias ping4='ping4 -c4'
