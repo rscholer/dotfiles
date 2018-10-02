@@ -30,7 +30,10 @@ import re  # noqa
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
-from imp import reload  # noqa
+try:
+    from importlib import reload # noqa
+except ImportError:
+    from imp import reload # noqa
 from pprint import pprint  # noqa
 
 
