@@ -41,6 +41,7 @@ HASH_DIRECTORIES=(
 	"${_XDG_DOCUMENTS_DIR}/Code/Remote"     'vcs-remote'
 	"${HOME}/mtp"                           'mtp'
 	"${XDG_RUNTIME_DIR}"                    'run'
+	"${ZDATADIR}/plugins"                   'zsh-plugins'
 	"/media/${USERNAME}"                    'media'
 	"/run/media/${USERNAME}"                'media'
 	'/var/cache/pacman/pkg'                 'paccache'
