@@ -59,7 +59,7 @@ fi
 
 # Package management.
 [[ -n ${commands[auracle]} ]] && alias auracle='noglob auracle --recurse'
-[[ -n ${commands[makepkg]} ]] && alias makepkg="makepkg --nocheck"
+[[ -n ${commands[makepkg]} ]] && alias makepkg="makepkg --cleanbuild --nocheck"
 [[ -n ${commands[paccache]} ]] && alias paccache='paccache --verbose'
 [[ -n ${commands[pkgfile]} ]] && alias pkgfile='pkgfile --verbose'
 
