@@ -21,6 +21,8 @@
 
 # Update external zsh plugins.
 
+emulate -L zsh
+
 local PLUGIN_ROOT
 local plugin
 local PRINT_NEWLINE

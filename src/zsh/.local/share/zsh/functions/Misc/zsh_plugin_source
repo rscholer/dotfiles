@@ -21,16 +21,20 @@
 
 # Helper function for loading of external plugins.
 
+emulate -L zsh
+
+setopt LOCAL_OPTIONS
+
+setopt ERR_RETURN
+
 local PLUGIN
 local PLUGIN_ROOT
 
-local PLUGIN="${1}"
-local PLUGIN_ROOT="${ZDATADIR}/plugins/${PLUGIN}"
+PLUGIN="${1}"
+PLUGIN_ROOT="${ZDATADIR}/plugins/${PLUGIN}"
 
 if [[ -f "${PLUGIN_ROOT}/${PLUGIN}.plugin.zsh" ]]; then
 	source "${PLUGIN_ROOT}/${PLUGIN}.plugin.zsh"
 elif [[ -f "${PLUGIN_ROOT}/${PLUGIN//zsh-/}.plugin.zsh" ]]; then
 	source "${PLUGIN_ROOT}/${PLUGIN//zsh-/}.plugin.zsh"
 fi
-
-return ${?}
