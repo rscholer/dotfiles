@@ -23,8 +23,8 @@
 
 export FAST_WORK_DIR="${ZCACHDIR}/fsh"
 
-zsh_plugin_source 'zsh-autopair'
-zsh_plugin_source 'zsh-completions'
-zsh_plugin_source 'zsh-command-not-found'
+zpm load 'zsh-autopair'
+zpm load 'zsh-completions'
+zpm load 'zsh-command-not-found'
 
-zsh_plugin_source 'fast-syntax-highlighting'
+zpm load 'fast-syntax-highlighting'

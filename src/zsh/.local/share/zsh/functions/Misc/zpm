@@ -23,14 +23,53 @@
 
 emulate -L zsh
 
-local PLUGIN
-local PLUGIN_ROOT
+function zpm_load() {
+	emulate -L zsh
 
-PLUGIN="${1}"
-PLUGIN_ROOT="${ZDATADIR}/plugins/${PLUGIN}"
+	local    PLUGIN
+	local -a PLUGIN_FILES
+	local    PLUGIN_ROOT
 
-if [[ -f "${PLUGIN_ROOT}/${PLUGIN}.plugin.zsh" ]]; then
-	source "${PLUGIN_ROOT}/${PLUGIN}.plugin.zsh"
-elif [[ -f "${PLUGIN_ROOT}/${PLUGIN//zsh-/}.plugin.zsh" ]]; then
-	source "${PLUGIN_ROOT}/${PLUGIN//zsh-/}.plugin.zsh"
-fi
+	PLUGIN="${1}"
+	PLUGIN_ROOT="${ZDATADIR}/plugins"
+
+	PLUGIN_FILE=("${PLUGIN_ROOT}/${PLUGIN}"/*.plugin.zsh(.,@N))
+
+	if [[ -n ${PLUGIN_FILE} ]]; then
+		source "${PLUGIN_FILE[1]}"
+	fi
+}
+
+function zpm_update() {
+	emulate -L zsh
+
+	local PLUGIN_ROOT
+	local PRINT_NEWLINE
+	local plugin
+
+	PLUGIN_ROOT="${ZDATADIR}/plugins/${PLUGIN}"
+
+	for plugin in "${PLUGIN_ROOT}"/*(FN); do
+		print -P "${PRINT_NEWLINE:+\n}%F{blue}%B::%f%b ${plugin:t}"
+
+		(cd "${plugin}"; git pull --prune)
+
+		PRINT_NEWLINE=1
+	done
+}
+
+function zpm() {
+	emulate -L zsh
+
+	local ACTION
+
+	ACTION="${1}"
+
+	if [[ "${ACTION}" == ('load'|'update') ]]; then
+		"zpm_${ACTION}" ${@[2,-1]}
+	else
+		print "Unknown action: ${ACTION}"
+	fi
+}
+
+zpm "${@}"
