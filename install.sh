@@ -37,6 +37,7 @@ DIRECTORIES=(
 	"${HOME}/.config/gtk-3.0"
 	"${HOME}/.config/mpv"
 	"${HOME}/.config/nvim/autoload"
+	"${HOME}/.config/parallel"
 	"${HOME}/.config/profile.d"
 	"${HOME}/.config/systemd/user"
 	"${HOME}/.config/xorg/xprofile.d"
@@ -73,6 +74,7 @@ PACKAGES=(
 	'numlockx'
 	'pacman'
 	'pacman-contrib'
+	'parallel'
 	'pip'
 	'pipenv'
 	'profile-cleaner'
