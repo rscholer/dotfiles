@@ -44,6 +44,7 @@ DIRECTORIES=(
 	"${HOME}/.config/xorg/xsession.d"
 	"${HOME}/.gnupg"
 	"${HOME}/.local/bin"
+	"${HOME}/.local/share/tig"
 	"${HOME}/.local/share/zsh"
 	"${HOME}/.ssh"
 )
