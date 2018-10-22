@@ -1,7 +1,7 @@
 gtk-button-images = 0
 gtk-enable-event-sounds = 0
 gtk-enable-input-feedback-sounds = 0
-gtk-font-name='sans-serif 10'
+gtk-font-name='sans-serif 8'
 gtk-icon-theme-name='elementary-xfce-dark'
 gtk-menu-images = 0
 gtk-theme-name='Arc-Darker-solid'
