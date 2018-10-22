@@ -2,7 +2,7 @@
 ! Settings
 !!!!!!!!!!
 rofi.cycle: false
-rofi.font: sans-serif 10
+rofi.font: sans-serif 8
 rofi.hide-scrollbar: true
 rofi.kb-cancel: Alt+Tab,Escape,Menu
 rofi.terminal: st
