@@ -11,7 +11,7 @@ hide_edge_borders smart
 new_float 1pixel
 new_window 1pixel
 
-font pango:sans-serif Bold 10
+font pango:sans-serif Bold 8
 
 client.background #000000
 
@@ -23,7 +23,7 @@ client.unfocused        #2f343f #2f343f    #f5f6f7    #5294e2   #2f343f
 client.urgent           #cc575d #cc575d    #f5f6f7    #cc575d   #cc575d
 
 bar {
-	font pango:sans-serif 10
+	font pango:sans-serif 8
 	position top
 	separator_symbol " "
 	status_command python -B /usr/bin/i3pystatus -c ~/.config/i3pystatus.py
