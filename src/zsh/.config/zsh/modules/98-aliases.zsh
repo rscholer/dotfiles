@@ -57,6 +57,10 @@ fi
 # git related programs
 [[ -n ${commands[tig]} ]] && alias tig='tig --show-signature'
 
+# grep-like programs
+[[ -n ${commands[grep]} ]] && alias grep='grep --color'
+[[ -n ${commands[pgrep]} ]] && alias pgrep='pgrep --list-name'
+
 # Package management.
 [[ -n ${commands[auracle]} ]] && alias auracle='noglob auracle --recurse'
 [[ -n ${commands[makepkg]} ]] && alias makepkg="makepkg --cleanbuild --nocheck"
