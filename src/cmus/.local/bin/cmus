@@ -21,16 +21,18 @@
 
 # Always run cmus inside a dedicated cmus session.
 
+CMUS_BIN="/usr/bin/cmus"
+
 for arg in "${@}"; do
 	case "${arg}" in
-		"--help")   	exec /usr/bin/cmus --help;;
-		"--plugins")	exec /usr/bin/cmus --plugins;;
-		"--version")	exec /usr/bin/cmus --version;;
+		"--help")   	exec "${CMUS_BIN}" --help;;
+		"--plugins")	exec "${CMUS_BIN}" --plugins;;
+		"--version")	exec "${CMUS_BIN}" --version;;
 	esac
 done
 
 if ! tmux list-sessions 2>&1 | grep -q "^cmus: "; then
-	tmux new -d -s cmus /usr/bin/cmus "${@}"
+	tmux new -d -s cmus "${CMUS_BIN}" "${@}"
 	tmux set-option -t cmus status off
 fi
 
