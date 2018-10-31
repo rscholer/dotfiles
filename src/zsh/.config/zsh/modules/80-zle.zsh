@@ -69,17 +69,19 @@ WORDCHARS="${WORDCHARS/\/}"
 		'Up'            "${terminfo[kcuu1]}"
 	)
 
-	bindkey "${key[BackSpace]}"     'backward-delete-char'
-	bindkey "${key[Delete]}"        'delete-char'
-	bindkey "${key[Down]}"          'history-beginning-search-forward'
-	bindkey "${key[End]}"           'end-of-line'
-	bindkey "${key[Home]}"          'beginning-of-line'
-	bindkey "${key[Insert]}"        'overwrite-mode'
-	bindkey "${key[PageDown]}"      'history-beginning-search-forward'
-	bindkey "${key[PageUp]}"        'history-beginning-search-backward'
-	bindkey "${key[ShiftLeft]}"     'backward-word'
-	bindkey "${key[ShiftRight]}"    'forward-word'
-	bindkey "${key[Up]}"            'history-beginning-search-backward'
+	() {
+		bindkey "${key[BackSpace]}"     'backward-delete-char'
+		bindkey "${key[Delete]}"        'delete-char'
+		bindkey "${key[Down]}"          'history-beginning-search-forward'
+		bindkey "${key[End]}"           'end-of-line'
+		bindkey "${key[Home]}"          'beginning-of-line'
+		bindkey "${key[Insert]}"        'overwrite-mode'
+		bindkey "${key[PageDown]}"      'history-beginning-search-forward'
+		bindkey "${key[PageUp]}"        'history-beginning-search-backward'
+		bindkey "${key[ShiftLeft]}"     'backward-word'
+		bindkey "${key[ShiftRight]}"    'forward-word'
+		bindkey "${key[Up]}"            'history-beginning-search-backward'
+	} &>|/dev/null
 
 	bindkey '^ '                    'magic-space'
 	bindkey '^Xd'                   'insert-iso-date'
