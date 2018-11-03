@@ -56,7 +56,6 @@ PACKAGES=(
 	'cower'
 	'downgrade'
 	'dunst'
-	'firefox'
 	'flake8'
 	'fontconfig'
 	'gimp'
