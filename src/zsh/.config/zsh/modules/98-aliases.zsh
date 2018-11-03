@@ -97,6 +97,7 @@ if [[ -n ${commands[filename_stem2md5]} ]]; then
 fi
 [[ -n ${commands[sxiv]} ]] && alias sxiv='sxiv -ar'
 [[ -n ${commands[youtube-dl]} ]] && alias youtube-dl='noglob youtube-dl'
+[[ -n ${commands[xclip]} ]] && alias xclip='xclip -selection clipboard'
 
 # nice-like programs
 alias ionice='ionice -c 3'
