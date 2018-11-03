@@ -166,6 +166,7 @@ bindsym $mod+Shift+f fullscreen toggle
 # Window rules
 ##############
 for_window [class="^Firefox$" window_role="^(?!browser$)"] floating enable
+for_window [class="^Gcolor3$"] floating enable
 for_window [class="^MP3Diags$" window_type="normal"] floating disable
 for_window [class="^Pavucontrol$"] floating enable
 for_window [class="^Sxiv$"] floating enable
