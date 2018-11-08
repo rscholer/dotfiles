@@ -1,3 +1,4 @@
 Xft.antialias: true
 Xft.hinting: true
 Xft.hintstyle: hintslight
+mst.font: monospace:pixelsize=10:antialias=true:hinting=true
