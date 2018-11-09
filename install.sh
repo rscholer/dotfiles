@@ -87,7 +87,6 @@ PACKAGES=(
 	'shells'
 	'ssh'
 	'sxiv'
-	'terminfo'
 	'tmux'
 	'udiskie'
 	'user-dirs'
