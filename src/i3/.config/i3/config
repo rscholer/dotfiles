@@ -68,6 +68,17 @@ mode "resize" {
 
 	bindsym Escape mode "default"
 	bindsym Return mode "default"
+	bindsym p mode "resize_precise"
+}
+mode "resize_precise" {
+	bindsym Down resize shrink height 1 px or 1 ppt
+	bindsym Left resize shrink width 1 px or 1 ppt
+	bindsym Right resize grow width 1 px or 1 ppt
+	bindsym Up resize grow height 1 px or 1 ppt
+
+	bindsym Escape mode "default"
+	bindsym Return mode "default"
+	bindsym r mode "resize"
 }
 
 # Change mode of floating containers.
@@ -118,6 +129,7 @@ bindsym $mod+Shift+KP_Add move container to workspace back_and_forth
 
 # Resize container.
 bindsym $mod+Shift+r mode resize
+bindsym $mod+Shift+p mode resize_precise
 
 # Split container in (h)orizontal or (v)direction.
 bindsym $mod+h split h
