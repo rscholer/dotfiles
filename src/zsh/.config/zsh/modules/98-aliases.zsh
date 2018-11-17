@@ -95,6 +95,9 @@ alias modprobe='modprobe --verbose'
 if [[ -n ${commands[filename_stem2md5]} ]]; then
 	alias filename_stem2md5='filename_stem2md5 --verbose'
 fi
+if [[ -n ${commands[inotifywait]} ]]; then
+	alias inotifywait='inotifywait --quiet --timefmt="%F %T" --format="%T: %w: %e"'
+fi
 [[ -n ${commands[sxiv]} ]] && alias sxiv='sxiv -ar'
 [[ -n ${commands[youtube-dl]} ]] && alias youtube-dl='noglob youtube-dl'
 [[ -n ${commands[xclip]} ]] && alias xclip='xclip -selection clipboard'
