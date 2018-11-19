@@ -139,6 +139,7 @@ bindsym $mod+v split v
 bindsym $mod+Ctrl+Return exec --no-startup-id i3-sensible-terminal
 bindsym $mod+Ctrl+d exec --no-startup-id dmenu_run
 bindsym $mod+Ctrl+l exec --no-startup-id i3lock -c 000000
+bindsym $mod+Ctrl+s exec --no-startup-id menusystem ~/.config/menusystem/system-menu.json
 bindsym Menu exec --no-startup-id dmenu_run
 bindsym Mod1+Tab exec --no-startup-id rofi -show window
 bindsym Scroll_Lock exec --no-startup-id i3lock -c 000000

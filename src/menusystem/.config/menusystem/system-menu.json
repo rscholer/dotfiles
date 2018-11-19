@@ -1,0 +1,12 @@
+{
+	"i3": {
+		"reconfigure": "i3-msg reload",
+		"restart": "i3-msg restart"
+	},
+	"lock": "i3lock",
+	"logout": "i3-msg exit",
+	"hibernate": "sh -c 'i3lock && systemctl hibernate'",
+	"suspend": "sh -c 'i3lock && systemctl suspend'",
+	"rebbot": "systemctl reboot",
+	"shutdown": "systemctl shutdown"
+}

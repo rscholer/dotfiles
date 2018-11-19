@@ -70,6 +70,7 @@ PACKAGES=(
 	'less'
 	'libdvdcss'
 	'libreoffice'
+	'menusystem'
 	'mpv'
 	'neovim'
 	'numlockx'
