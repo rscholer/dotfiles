@@ -1,0 +1,40 @@
+#!/bin/sh
+# Copyright (C) 2018 by Raphael Scholer
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+COLOR='#5294e2'
+HOSTNAME="${HOSTNAME:-$(hostname)}"
+I3LOCK_BIN='/usr/bin/i3lock'
+IMAGE_FILE=''
+MONITOR_COUNT=1
+XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}}/.local/share"
+
+if command -v xrandr >/dev/null 2>&1; then
+	MONITOR_COUNT=$(xrandr -q |grep --count '\*')
+	IMAGE_FILE="${XDG_DATA_HOME}/i3lock/${HOSTNAME}_screen${MONITOR_COUNT}.png"
+else
+	echo 'xrandr not found. Fall back to solid color.' >&2
+fi
+
+if [ -f "${IMAGE_FILE}" ]; then
+	"${I3LOCK_BIN}" -i "${IMAGE_FILE}" "${@}"
+else
+	"${I3LOCK_BIN}" --color="${COLOR}" "${@}"
+fi

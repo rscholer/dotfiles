@@ -65,6 +65,7 @@ PACKAGES=(
 	'gtk3'
 	'htop'
 	'i3'
+	'i3lock'
 	'i3pystatus'
 	'less'
 	'libdvdcss'
