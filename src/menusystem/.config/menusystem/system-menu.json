@@ -8,5 +8,5 @@
 	"hibernate": "sh -c 'i3lock && systemctl hibernate'",
 	"suspend": "sh -c 'i3lock && systemctl suspend'",
 	"rebbot": "systemctl reboot",
-	"shutdown": "systemctl shutdown"
+	"shutdown": "systemctl poweroff"
 }
