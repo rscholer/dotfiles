@@ -1,0 +1,1 @@
+syntax match dosiniComment "^\s*[#;].*"
