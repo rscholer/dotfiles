@@ -53,7 +53,7 @@ status.register(
     detect_active=True,
     dynamic_color=False,
     format_active_up={
-        'e*': '\uf0e8',  # fa-sitemap
+        'e*': '\uf6ff',  # fa-network-wired
         'w*': '\uf1eb {essid}',  # fa-wifi
     },
     format_down='\uf110',  # fa-spinner
