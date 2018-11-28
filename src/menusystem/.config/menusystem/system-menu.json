@@ -7,6 +7,6 @@
 	"logout": "i3-msg exit",
 	"hibernate": "sh -c 'i3lock && systemctl hibernate'",
 	"suspend": "sh -c 'i3lock && systemctl suspend'",
-	"rebbot": "systemctl reboot",
+	"reboot": "systemctl reboot",
 	"shutdown": "systemctl poweroff"
 }
