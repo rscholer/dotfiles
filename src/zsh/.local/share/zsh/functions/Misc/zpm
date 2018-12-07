@@ -52,7 +52,7 @@ function zpm_update() {
 	for plugin in "${PLUGIN_ROOT}"/*(FN); do
 		print -P "${PRINT_NEWLINE:+\n}%F{blue}%B::%f%b ${plugin:t}"
 
-		(cd "${plugin}"; git pull --prune)
+		git -C "${plugin}" pull --prune
 
 		PRINT_NEWLINE=1
 	done
