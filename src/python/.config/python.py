@@ -23,6 +23,7 @@ import atexit
 from importlib import reload  # noqa: Make testing of code easier.
 import json  # noqa: Make testing of code easier.
 import os
+import pathlib
 import re  # noqa: Make testing of code easier.
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
@@ -30,15 +31,11 @@ import sys
 from typing import Any
 
 
-CUSTOM_HISTFILE = os.path.expanduser(
-    os.path.join(
-        os.getenv('XDG_CACHE_HOME', '~/.cache'),
-        'python{}_history'.format(sys.version_info.major)
-    )
+HISTFILE = (
+    pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
+    f'python{sys.version_info.major}_history'
 )
-
-DEFAULT_HISTFILE = os.path.expanduser('~/.python_history')
-
+HISTFILE_DEFAULT = pathlib.Path('~/.python_history').expanduser()
 HISTSIZE = 1000
 
 
@@ -109,25 +106,6 @@ def displayhook_pprint(value: Any) -> None:
     builtins._ = value  # type: ignore
 
 
-def load_history(fp: str) -> None:
-    """Load history from file.
-
-    Parameters
-    ----------
-    fp :
-        Path to file.
-
-    Returns
-    -------
-    None
-
-    """
-    try:
-        readline.read_history_file(fp)
-    except IOError:
-        pass
-
-
 def main() -> None:
     """Main function.
 
@@ -147,16 +125,18 @@ def main() -> None:
     readline.set_history_length(HISTSIZE)
 
     # Create custom history file
-    touch(CUSTOM_HISTFILE)
+    HISTFILE.parent.mkdir(parents=True, exist_ok=True)
+    HISTFILE.touch(mode=0o600, exist_ok=True)
 
     # Load custom history file
-    load_history(CUSTOM_HISTFILE)
+    if HISTFILE.exists():
+        readline.read_history_file(HISTFILE)  # type: ignore
 
     # Use custom history file
-    atexit.register(readline.write_history_file, CUSTOM_HISTFILE)
+    atexit.register(readline.write_history_file, HISTFILE)
 
     # Remove default history at exit
-    atexit.register(remove_file, DEFAULT_HISTFILE)
+    atexit.register(remove_file, HISTFILE_DEFAULT)
 
     # Use pprint to print variables
     sys.displayhook = displayhook_pprint
@@ -181,45 +161,20 @@ def remove_file(fp: str) -> None:
         pass
 
 
-def touch(fp: str) -> None:
-    """Touch file, and create it's path.
-
-    Parameters
-    ----------
-    fp :
-        Path to file.
-
-    Returns
-    -------
-    None
-
-    """
-    if not os.path.exists(fp):
-        try:
-            os.makedirs(os.path.dirname(fp))
-        except OSError:
-            pass
-        else:
-            with open(fp, 'ab'):
-                os.utime(fp)
-
-
 if __name__ == '__main__':
     main()
 
     # Cleanup
     del (
         # constants
-        CUSTOM_HISTFILE,
-        DEFAULT_HISTFILE,
+        HISTFILE_DEFAULT,
+        HISTFILE,
         HISTSIZE,
 
         # functions
         colorize_prompt,
         displayhook_pprint,
-        load_history,
         remove_file,
-        touch,
 
         # modules
         atexit,
