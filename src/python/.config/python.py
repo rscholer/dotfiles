@@ -29,6 +29,8 @@ import re  # noqa
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
+from typing import Any
+from typing import Callable
 
 
 CUSTOM_HISTFILE = os.path.expanduser(
@@ -43,22 +45,23 @@ DEFAULT_HISTFILE = os.path.expanduser('~/.python_history')
 HISTSIZE = 1000
 
 
-def colorize_prompt(text, color, state):
+def colorize_prompt(text: str, color: str, state: str) -> str:
     """Colorize prompt.
 
     Parameters
     ----------
-    text : str
+    text :
         Text to colorize.
-    color : str
+    color :
         Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
                           `white` or `yellow`.
-    state : str
+    state :
         State: `bold`, `bright`, `regular` or `bright`.
 
     Returns
     -------
-    None
+    str :
+        Modified text.
 
     """
     ansi_colors = {
@@ -71,14 +74,14 @@ def colorize_prompt(text, color, state):
         'cyan': 36,
         'white': 37,
     }
-    mod = {
+    states = {
         'regular': '0;',
         'bold': '1;',
         'underline': '4;',
     }
 
     col = ansi_colors.get(color)
-    mod = mod.get(state, '')
+    mod = states.get(state, '')
 
     if col is None:
         col = 0
@@ -90,12 +93,12 @@ def colorize_prompt(text, color, state):
     return '\001\033[{}{}m\002{}\001\033[00m\002'.format(mod, col, text)
 
 
-def displayhook_pprint(value, show=pprint):
+def displayhook_pprint(value: Any, show: Callable = pprint) -> None:
     """Use pprint.pprint to display values.
 
     Parameters
     ----------
-    value : Any
+    value :
         Value to display.
     show : Callable
         Function used to display value.
@@ -111,12 +114,12 @@ def displayhook_pprint(value, show=pprint):
         show(value)
 
 
-def load_history(fp):
+def load_history(fp: str) -> None:
     """Load history from file.
 
     Parameters
     ----------
-    fp : str
+    fp :
         Path to file.
 
     Returns
@@ -130,7 +133,7 @@ def load_history(fp):
         pass
 
 
-def main():
+def main() -> None:
     """Main function.
 
     Returns
@@ -164,12 +167,12 @@ def main():
     sys.displayhook = displayhook_pprint
 
 
-def remove_file(fp):
+def remove_file(fp: str) -> None:
     """Remove default history file.
 
     Parameters
     ----------
-    fp : str
+    fp :
         Path to file.
 
     Returns
@@ -183,12 +186,12 @@ def remove_file(fp):
         pass
 
 
-def touch(fp):
+def touch(fp: str) -> None:
     """Touch file, and create it's path.
 
     Parameters
     ----------
-    fp : str
+    fp :
         Path to file.
 
     Returns
