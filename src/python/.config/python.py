@@ -23,13 +23,11 @@ import atexit
 from importlib import reload  # noqa: Make testing of code easier.
 import json  # noqa: Make testing of code easier.
 import os
-from pprint import pprint
 import re  # noqa: Make testing of code easier.
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
 from typing import Any
-from typing import Callable
 
 
 CUSTOM_HISTFILE = os.path.expanduser(
@@ -92,25 +90,27 @@ def colorize_prompt(text: str, color: str, state: str) -> str:
     return '\001\033[{}{}m\002{}\001\033[00m\002'.format(mod, col, text)
 
 
-def displayhook_pprint(value: Any, show: Callable = pprint) -> None:
+def displayhook_pprint(value: Any) -> None:
     """Use pprint.pprint to display values.
 
     Parameters
     ----------
     value :
         Value to display.
-    show : Callable
-        Function used to display value.
-        This argument is only used to make sure it's default value is always available.
 
     Returns
     -------
     None
 
     """
-    if value:
-        __builtins__._ = value
-        show(value)
+    import pprint
+    import builtins
+
+    if value is None:
+        return
+
+    pprint.pprint(value)
+    builtins._ = value  # type: ignore
 
 
 def load_history(fp: str) -> None:
