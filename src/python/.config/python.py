@@ -35,7 +35,6 @@ HISTFILE = (
     pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
     f'python{sys.version_info.major}_history'
 )
-HISTFILE_DEFAULT = pathlib.Path('~/.python_history').expanduser()
 HISTSIZE = 1000
 
 
@@ -135,30 +134,8 @@ def main() -> None:
     # Use custom history file
     atexit.register(readline.write_history_file, HISTFILE)
 
-    # Remove default history at exit
-    atexit.register(remove_file, HISTFILE_DEFAULT)
-
     # Use pprint to print variables
     sys.displayhook = displayhook_pprint
-
-
-def remove_file(fp: str) -> None:
-    """Remove default history file.
-
-    Parameters
-    ----------
-    fp :
-        Path to file.
-
-    Returns
-    -------
-    None
-
-    """
-    try:
-        os.remove(fp)
-    except OSError:
-        pass
 
 
 if __name__ == '__main__':
@@ -167,14 +144,12 @@ if __name__ == '__main__':
     # Cleanup
     del (
         # constants
-        HISTFILE_DEFAULT,
         HISTFILE,
         HISTSIZE,
 
         # functions
         colorize_prompt,
         displayhook_pprint,
-        remove_file,
 
         # modules
         atexit,
