@@ -105,14 +105,7 @@ def displayhook_pprint(value: Any) -> None:
     builtins._ = value  # type: ignore
 
 
-def main() -> None:
-    """Main function.
-
-    Returns
-    -------
-    None
-
-    """
+if __name__ == '__main__':
     # Enable tab completion
     readline.parse_and_bind('tab: complete')
 
@@ -136,10 +129,6 @@ def main() -> None:
 
     # Use pprint to print variables
     sys.displayhook = displayhook_pprint
-
-
-if __name__ == '__main__':
-    main()
 
     # Cleanup
     del (
