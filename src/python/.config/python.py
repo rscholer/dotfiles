@@ -46,11 +46,20 @@ HISTSIZE = 1000
 def colorize_prompt(text, color, state):
     """Colorize prompt.
 
-    Positional arguments:
-        text -- Text to colorize
-        color -- Color to be used: black, red, green, yellow, blue, purple,
-                                   cyan, white
-        state -- Color type: regular, bold, underline, bright
+    Parameters
+    ----------
+    text : str
+        Text to colorize.
+    color : str
+        Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
+                          `white` or `yellow`.
+    state : str
+        State: `bold`, `bright`, `regular` or `bright`.
+
+    Returns
+    -------
+    None
+
     """
     ansi_colors = {
         'black': 30,
@@ -84,13 +93,18 @@ def colorize_prompt(text, color, state):
 def displayhook_pprint(value, show=pprint):
     """Use pprint.pprint to display values.
 
-    Positional arguments:
-        value -- Value to display.
+    Parameters
+    ----------
+    value : Any
+        Value to display.
+    show : Callable
+        Function used to display value.
+        This argument is only used to make sure it's default value is always available.
 
-    Keyword arguments:
-        show -- Function used to display value.
-                This argument is only used to make sure it's default value
-                is always available.
+    Returns
+    -------
+    None
+
     """
     if value:
         __builtins__._ = value
@@ -100,8 +114,15 @@ def displayhook_pprint(value, show=pprint):
 def load_history(fp):
     """Load history from file.
 
-    Positional arguments:
-        fp -- Path to file.
+    Parameters
+    ----------
+    fp : str
+        Path to file.
+
+    Returns
+    -------
+    None
+
     """
     try:
         readline.read_history_file(fp)
@@ -110,7 +131,13 @@ def load_history(fp):
 
 
 def main():
-    """Main function."""
+    """Main function.
+
+    Returns
+    -------
+    None
+
+    """
     # Enable tab completion
     readline.parse_and_bind('tab: complete')
 
@@ -140,8 +167,15 @@ def main():
 def remove_file(fp):
     """Remove default history file.
 
-    Positional arguments:
-        fp -- Path to file.
+    Parameters
+    ----------
+    fp : str
+        Path to file.
+
+    Returns
+    -------
+    None
+
     """
     try:
         os.remove(fp)
@@ -152,8 +186,15 @@ def remove_file(fp):
 def touch(fp):
     """Touch file, and create it's path.
 
-    Positional arguments:
-        fp -- Path to file.
+    Parameters
+    ----------
+    fp : str
+        Path to file.
+
+    Returns
+    -------
+    None
+
     """
     if not os.path.exists(fp):
         try:
