@@ -80,6 +80,10 @@ fi
 [[ -n ${commands[htop]} ]] && alias uhtop="htop -u ${USERNAME}"
 [[ -n ${commands[top]} ]] && alias utop="top -u ${USERNAME}"
 
+# Python
+[[ -n ${commands[python2]} ]] && alias python2='PYTHONSTARTUP=/dev/null python2'
+[[ -n ${commands[python2.7]} ]] && alias python2.7='PYTHONSTARTUP=/dev/null python2.7'
+
 # Network management
 [[ -n ${commands[curl]} ]] && alias ipe='curl ipinfo.io/ip'
 [[ -n ${commands[ip]} ]] && alias ip='ip -color -human-readable -iec'
