@@ -35,7 +35,6 @@ HISTFILE = (
     pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
     f'python{sys.version_info.major}_history'
 )
-HISTSIZE = 1000
 
 
 def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
@@ -114,7 +113,7 @@ if __name__ == '__main__':
     sys.ps2 = colorize_prompt('... ', 'yellow', 'bold')
 
     # Constrict history size
-    readline.set_history_length(HISTSIZE)
+    readline.set_history_length(1000)
 
     # Create custom history file
     HISTFILE.parent.mkdir(parents=True, exist_ok=True)
@@ -134,7 +133,6 @@ if __name__ == '__main__':
     del (
         # constants
         HISTFILE,
-        HISTSIZE,
 
         # functions
         colorize_prompt,
