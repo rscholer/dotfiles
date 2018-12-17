@@ -42,7 +42,7 @@ DEFAULT_HISTFILE = os.path.expanduser('~/.python_history')
 HISTSIZE = 1000
 
 
-def colorize_prompt(text: str, color: str, state: str) -> str:
+def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
     """Colorize prompt.
 
     Parameters
@@ -53,7 +53,7 @@ def colorize_prompt(text: str, color: str, state: str) -> str:
         Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
                           `white` or `yellow`.
     state :
-        State: `bold`, `bright`, `regular` or `bright`.
+        State: `bold`, `bright`, `regular` or `bright`. (Default: `regular`.)
 
     Returns
     -------
@@ -72,22 +72,18 @@ def colorize_prompt(text: str, color: str, state: str) -> str:
         'white': 37,
     }
     states = {
+        'bright': '0;',
         'regular': '0;',
         'bold': '1;',
         'underline': '4;',
     }
 
-    col = ansi_colors.get(color)
-    mod = states.get(state, '')
+    color_offset = 60 if state == 'bright' else 0
 
-    if col is None:
-        col = 0
-        mod = ''
-    elif state == 'bright':
-        col += 60
-        mod = '0;'
+    col = ansi_colors[color] + color_offset
+    mod = states[state]
 
-    return '\001\033[{}{}m\002{}\001\033[00m\002'.format(mod, col, text)
+    return f'\001\033[{mod}{col}m\002{text}\001\033[00m\002'
 
 
 def displayhook_pprint(value: Any) -> None:
