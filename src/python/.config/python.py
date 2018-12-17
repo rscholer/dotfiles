@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 # Copyright (c) 2018 Raphael Scholer
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,23 +18,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-"""This file will be executed when running python as a shell.
-
-IMPORTANT: This file needs to be interpretable in python 2.7 and >3.0.
-"""
+"""This file will be executed when running python as a shell."""
 import atexit
+from importlib import reload # noqa
 import json  # noqa
 import math  # noqa
 import os
+from pprint import pprint  # noqa
 import re  # noqa
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
-try:
-    from importlib import reload # noqa
-except ImportError:
-    from imp import reload # noqa
-from pprint import pprint  # noqa
 
 
 CUSTOM_HISTFILE = os.path.expanduser(
