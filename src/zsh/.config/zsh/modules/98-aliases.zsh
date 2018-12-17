@@ -83,7 +83,7 @@ fi
 # Network management
 [[ -n ${commands[curl]} ]] && alias ipe='curl ipinfo.io/ip'
 [[ -n ${commands[ip]} ]] && alias ip='ip -color -human-readable -iec'
-[[ -n ${commands[iwmon]} ]] && alias iwmon='iwon --nortnl'
+[[ -n ${commands[iwmon]} ]] && alias iwmon='iwmon --nortnl'
 [[ -n ${commands[ping4]} ]] && alias ping4='ping4 -c4'
 [[ -n ${commands[ping6]} ]] && alias ping6='ping6 -c4'
 [[ -n ${commands[ping]} ]] && alias ping='ping -c4'
