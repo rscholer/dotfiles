@@ -29,12 +29,16 @@ import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
 from typing import Any
-from typing import Optional
 from typing import List
+from typing import Optional
 
 
-def colorize_prompt(text: str, color: str, state: Optional[List[str]] = None) -> str:
-    """Colorize prompt.
+def ansi_colorize(text: str, color: str, state: Optional[List[str]] = None,
+                  prompt: bool = False) -> str:
+    """Add ANSI color escape sequences to a text.
+
+    This function also adds some extra escape sequences, so that Readline will
+    be able to accurately determine the length of the modified text.
 
     Parameters
     ----------
@@ -70,13 +74,16 @@ def colorize_prompt(text: str, color: str, state: Optional[List[str]] = None) ->
         'underline': '4;',
     }
 
-    color_offset = 60 if 'bright' in state else 0
     state = state or ['regular']
+    color_offset = 60 if 'bright' in state else 0
 
     col = ansi_colors[color] + color_offset
     mod = ''.join([states[x] for x in state])
 
-    return f'\001\033[{mod}{col}m\002{text}\001\033[00m\002'
+    if prompt:
+        return f'\001\033[{mod}{col}m\002{text}\001\033[00m\002'
+    else:
+        return f'\033{mod}{col}m{text}\033[00m'
 
 
 def displayhook_pprint(value: Any) -> None:
@@ -134,8 +141,8 @@ if __name__ == '__main__':
     ###############################
     # Prompt
     ###############################
-    sys.ps1 = colorize_prompt('>>>', color='blue', state=['bold']) + ' '
-    sys.ps2 = colorize_prompt('...', color='yellow', state=['bold']) + ' '
+    sys.ps1 = ansi_colorize('>>>', color='blue', state=['bold'], prompt=True) + ' '
+    sys.ps2 = ansi_colorize('...', color='yellow', state=['bold'], prompt=True) + ' '
 
     ################################
     # Use pprint to print variables.
