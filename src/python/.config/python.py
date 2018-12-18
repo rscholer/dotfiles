@@ -128,18 +128,3 @@ if __name__ == '__main__':
 
     # Use pprint to print variables
     sys.displayhook = displayhook_pprint
-
-    # Cleanup
-    del (
-        # constants
-        HISTFILE,
-
-        # functions
-        colorize_prompt,
-        displayhook_pprint,
-
-        # modules
-        atexit,
-        readline,
-        rlcompleter,
-    )
