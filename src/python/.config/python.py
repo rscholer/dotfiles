@@ -130,8 +130,8 @@ if __name__ == '__main__':
     ###############################
     # Prompt
     ###############################
-    sys.ps1 = colorize_prompt('>>> ', 'blue', 'bold')
-    sys.ps2 = colorize_prompt('... ', 'yellow', 'bold')
+    sys.ps1 = colorize_prompt('>>>', 'blue', 'bold') + ' '
+    sys.ps2 = colorize_prompt('...', 'yellow', 'bold') + ' '
 
     ################################
     # Use pprint to print variables.
