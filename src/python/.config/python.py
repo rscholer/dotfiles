@@ -29,9 +29,11 @@ import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
 from typing import Any
+from typing import Optional
+from typing import List
 
 
-def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
+def colorize_prompt(text: str, color: str, state: Optional[List[str]] = None) -> str:
     """Colorize prompt.
 
     Parameters
@@ -42,7 +44,8 @@ def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
         Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
                           `white` or `yellow`.
     state :
-        State: `bold`, `bright`, `regular` or `bright`. (Default: `regular`.)
+        List of states: `bold`, `bright`, `regular` or `bright`.
+        (Default: ['regular'])
 
     Returns
     -------
@@ -67,10 +70,11 @@ def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
         'underline': '4;',
     }
 
-    color_offset = 60 if state == 'bright' else 0
+    color_offset = 60 if 'bright' in state else 0
+    state = state or ['regular']
 
     col = ansi_colors[color] + color_offset
-    mod = states[state]
+    mod = ''.join([states[x] for x in state])
 
     return f'\001\033[{mod}{col}m\002{text}\001\033[00m\002'
 
@@ -130,8 +134,8 @@ if __name__ == '__main__':
     ###############################
     # Prompt
     ###############################
-    sys.ps1 = colorize_prompt('>>>', 'blue', 'bold') + ' '
-    sys.ps2 = colorize_prompt('...', 'yellow', 'bold') + ' '
+    sys.ps1 = colorize_prompt('>>>', color='blue', state=['bold']) + ' '
+    sys.ps2 = colorize_prompt('...', color='yellow', state=['bold']) + ' '
 
     ################################
     # Use pprint to print variables.
