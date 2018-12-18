@@ -31,12 +31,6 @@ import sys
 from typing import Any
 
 
-HISTFILE = (
-    pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
-    f'python{sys.version_info.major}_history'
-)
-
-
 def colorize_prompt(text: str, color: str, state: str = 'regular') -> str:
     """Colorize prompt.
 
@@ -105,26 +99,41 @@ def displayhook_pprint(value: Any) -> None:
 
 
 if __name__ == '__main__':
-    # Enable tab completion
-    readline.parse_and_bind('tab: complete')
-
-    # Set prompt
-    sys.ps1 = colorize_prompt('>>> ', 'blue', 'bold')
-    sys.ps2 = colorize_prompt('... ', 'yellow', 'bold')
+    ################################
+    # History
+    ################################
+    histfile = (
+        pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
+        f'python{sys.version_info.major}_history'
+    )
 
     # Constrict history size
     readline.set_history_length(1000)
 
     # Create custom history file
-    HISTFILE.parent.mkdir(parents=True, exist_ok=True)
-    HISTFILE.touch(mode=0o600, exist_ok=True)
+    histfile.parent.mkdir(parents=True, exist_ok=True)
+    histfile.touch(mode=0o600, exist_ok=True)
 
     # Load custom history file
-    if HISTFILE.exists():
-        readline.read_history_file(HISTFILE)  # type: ignore
+    if histfile.exists():
+        readline.read_history_file(histfile)  # type: ignore
 
     # Use custom history file
-    atexit.register(readline.write_history_file, HISTFILE)
+    atexit.register(readline.write_history_file, histfile)
 
-    # Use pprint to print variables
+    ################################
+    # Keybindings
+    ################################
+    # Enable tab completion
+    readline.parse_and_bind('tab: complete')
+
+    ###############################
+    # Prompt
+    ###############################
+    sys.ps1 = colorize_prompt('>>> ', 'blue', 'bold')
+    sys.ps2 = colorize_prompt('... ', 'yellow', 'bold')
+
+    ################################
+    # Use pprint to print variables.
+    ################################
     sys.displayhook = displayhook_pprint
