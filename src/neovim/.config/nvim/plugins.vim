@@ -40,7 +40,7 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 	Plug 'Vimjas/vim-python-pep8-indent'
 	Plug 'airblade/vim-gitgutter'
 	Plug 'cespare/vim-toml'
-	Plug 'christoomey/vim-sort-motion'
+	Plug 'kana/vim-textobj-indent' | Plug 'christoomey/vim-sort-motion'
 	Plug 'deathlyfrantic/vim-distinguished'
 	Plug 'farmergreg/vim-lastplace'
 	Plug 'godlygeek/tabular' | Plug 'gabrielelana/vim-markdown'
