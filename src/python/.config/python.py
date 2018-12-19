@@ -200,3 +200,8 @@ if __name__ == '__main__':
     # Use pprint to print variables.
     ################################
     sys.displayhook = displayhook_pprint
+
+    ################################
+    # Don't write bytecode in interactive mode.
+    ################################
+    sys.dont_write_bytecode = True
