@@ -33,6 +33,58 @@ from typing import List
 from typing import Optional
 
 
+class CustomPrompt:
+    """Create a colorized prompt and report actual prompt length."""
+
+    def __init__(self, text: str, color: str, state: Optional[List[str]] = None) -> None:
+        """Initialize object.
+
+        Parameters
+        ----------
+        text :
+            Text of prompt.
+        color :
+            Text color.
+            Needs to be one of: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
+            `white` or `yellow`.
+        state :
+            List of states: `bold`, `bright`, `regular` or `bright`.
+            If set to `None`, fall back to `bold`.
+
+        Returns
+        -------
+        None
+
+        """
+        self.color = color
+        self.state = state or ['bold']
+        self.text = text
+
+    def __len__(self) -> int:
+        """Return actual length of the prompt.
+
+        All ANSI color escape sequences will be ignored.
+
+        Returns
+        -------
+        int :
+            Adjusted length of prompt.
+
+        """
+        return len(self.text) + 1
+
+    def __str__(self) -> str:
+        """Add ANSI color escape sequences to a text.
+
+        Returns
+        -------
+        str :
+            Modified text.
+
+        """
+        return ansi_colorize(self.text, self.color, self.state, prompt=True) + ' '
+
+
 def ansi_colorize(text: str, color: str, state: Optional[List[str]] = None,
                   prompt: bool = False) -> str:
     """Add ANSI color escape sequences to a text.
@@ -141,8 +193,8 @@ if __name__ == '__main__':
     ###############################
     # Prompt
     ###############################
-    sys.ps1 = ansi_colorize('>>>', color='blue', state=['bold'], prompt=True) + ' '
-    sys.ps2 = ansi_colorize('...', color='yellow', state=['bold'], prompt=True) + ' '
+    sys.ps1 = CustomPrompt('>>>', 'blue')  # type: ignore
+    sys.ps2 = CustomPrompt('...', 'yellow')  # type: ignore
 
     ################################
     # Use pprint to print variables.
