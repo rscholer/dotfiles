@@ -166,7 +166,7 @@ if __name__ == '__main__':
     # History
     ################################
     histfile = (
-        pathlib.Path(os.getenv('XDG_CONFIG_HOME', '~/.cache')).expanduser() /
+        pathlib.Path(os.getenv('XDG_CACHE_HOME', '~/.cache')).expanduser() /
         f'python{sys.version_info.major}_history'
     )
 
