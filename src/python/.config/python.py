@@ -20,11 +20,11 @@
 # THE SOFTWARE.
 """This file will be executed when running python as a shell."""
 import atexit
-from importlib import reload  # noqa: Make testing of code easier.
-import json  # noqa: Make testing of code easier.
+from importlib import reload  # noqa: Imported for convenience.
+import json  # noqa: Imported for convenience.
 import os
 import pathlib
-import re  # noqa: Make testing of code easier.
+import re  # noqa: Imported for convenience.
 import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
