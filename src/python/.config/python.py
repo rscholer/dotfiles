@@ -185,7 +185,7 @@ if __name__ == '__main__':
     atexit.register(readline.write_history_file, histfile)
 
     ################################
-    # Keybindings
+    # Key bindings
     ################################
     # Enable tab completion
     readline.parse_and_bind('tab: complete')
