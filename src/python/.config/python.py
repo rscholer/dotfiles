@@ -205,3 +205,24 @@ if __name__ == '__main__':
     # Don't write bytecode in interactive mode.
     ################################
     sys.dont_write_bytecode = True
+
+    ################################
+    # Cleanup
+    ################################
+    del (
+        # Modules
+        atexit,
+        readline,
+        rlcompleter,
+
+        # Type hints
+        Any,
+        List,
+        Optional,
+
+        # Variables
+        histfile,
+
+        # Functions
+        displayhook_pprint,
+    )
