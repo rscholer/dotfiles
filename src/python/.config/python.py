@@ -29,8 +29,10 @@ import readline
 import rlcompleter  # noqa: Needs to be imported for enabling tab-completion.
 import sys
 from typing import Any
+from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Tuple
 
 
 class CustomPrompt:
@@ -161,6 +163,97 @@ def displayhook_pprint(value: Any) -> None:
     builtins._ = value  # type: ignore
 
 
+def format_time(dt: float, unit: Optional[str] = None, precision: int = 5) -> str:
+    """Convert a time delta to a nicely formatted string (with unit).
+
+    Parameters
+    ----------
+    dt :
+        Amount of time in seconds.
+    unit :
+        Unit of the formatted `dt`.
+        May be one of the following: 'sec', 'msec', 'usec' or 'nsec'.
+    precision :
+        Precision of formating. [1]
+
+    Returns
+    -------
+    str
+
+    References
+    ----------
+    .. [1] https://python.org/3/library/string.html#formatspec
+
+    """
+    units = {
+        'nsec': 1e-9,
+        'usec': 1e-6,
+        'msec': 1e-3,
+        'sec': 1.0,
+    }
+
+    if unit is not None:
+        scale = units[unit]
+    else:
+        scales: List[Tuple[float, str]] = [(scale, unit) for unit, scale in units.items()]
+        scales.sort(reverse=True)
+
+        for scale, _unit in scales:
+            if dt >= scale:
+                unit = _unit
+                break
+
+    return f'{dt / scale:.{precision}g} {unit}'
+
+
+def timed(stmt: str = '', setup: str = '', globals_: Optional[Dict[str, Any]] = None,
+          repeat: Optional[int] = None, number: Optional[int] = None) -> None:
+    """Informative wrapper around `timeit.repeat`.
+
+    Parameters
+    ----------
+    stmt :
+        Statement to be executed.
+    setup :
+        Statement to be executed once initially.
+    globals :
+        Namespace in which the code is executed.
+    repeat :
+        Times the timer is repeated.
+    number :
+        Times `stmt` is executed.
+
+    Returns
+    -------
+    None
+
+    """
+    import timeit
+
+    number = abs(number or 1_000_000)
+    repeat = abs(repeat or 5)
+
+    measurements_raw = timeit.repeat(stmt, setup=setup, globals=globals_,
+                                     repeat=repeat, number=number)
+    measurements = [dt / number for dt in measurements_raw]
+
+    best = min(measurements)
+    worst = max(measurements)
+
+    print(
+        f"{number} loop{'s' if number != 1 else ''}, "
+        f'best of {repeat}: {format_time(best)} per loop'
+    )
+
+    if worst >= best * 4:
+        print(
+            '\nThe test results are likely unreliable.\n'
+            f'The worst time ({format_time(worst)}) was more than four times '
+            f'slower than the best time ({format_time(best)}).',
+            file=sys.stderr
+        )
+
+
 if __name__ == '__main__':
     ################################
     # History
@@ -217,8 +310,10 @@ if __name__ == '__main__':
 
         # Type hints
         Any,
+        Dict,
         List,
         Optional,
+        Tuple,
 
         # Variables
         histfile,
