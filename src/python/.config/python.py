@@ -82,60 +82,56 @@ class CustomPrompt:
             Modified text.
 
         """
-        return ansi_colorize(self.text, self.color, self.state, prompt=True) + ' '
+        return self.ansi_colorize(self.text, self.color, self.state) + ' '
 
+    @staticmethod
+    def ansi_colorize(text: str, color: str, state: Optional[List[str]] = None) -> str:
+        """Add ANSI color escape sequences to a text.
 
-def ansi_colorize(text: str, color: str, state: Optional[List[str]] = None,
-                  prompt: bool = False) -> str:
-    """Add ANSI color escape sequences to a text.
+        This method also adds some extra escape sequences, so that Readline will
+        be able to accurately determine the length of the modified text.
 
-    This function also adds some extra escape sequences, so that Readline will
-    be able to accurately determine the length of the modified text.
+        Parameters
+        ----------
+        text :
+            Text to colorize.
+        color :
+            Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
+                              `white` or `yellow`.
+        state :
+            List of states: `bold`, `bright`, `regular` or `bright`.
+            (Default: ['regular'])
 
-    Parameters
-    ----------
-    text :
-        Text to colorize.
-    color :
-        Color to be used: `black`, `blue`, `cyan`, `green`, `purple`, `red`,
-                          `white` or `yellow`.
-    state :
-        List of states: `bold`, `bright`, `regular` or `bright`.
-        (Default: ['regular'])
+        Returns
+        -------
+        str :
+            Modified text.
 
-    Returns
-    -------
-    str :
-        Modified text.
+        """
+        ansi_colors = {
+            'black': 30,
+            'red': 31,
+            'green': 32,
+            'yellow': 33,
+            'blue': 34,
+            'purple': 35,
+            'cyan': 36,
+            'white': 37,
+        }
+        states = {
+            'bright': '0;',
+            'regular': '0;',
+            'bold': '1;',
+            'underline': '4;',
+        }
 
-    """
-    ansi_colors = {
-        'black': 30,
-        'red': 31,
-        'green': 32,
-        'yellow': 33,
-        'blue': 34,
-        'purple': 35,
-        'cyan': 36,
-        'white': 37,
-    }
-    states = {
-        'bright': '0;',
-        'regular': '0;',
-        'bold': '1;',
-        'underline': '4;',
-    }
+        state = state or ['regular']
+        color_offset = 60 if 'bright' in state else 0
 
-    state = state or ['regular']
-    color_offset = 60 if 'bright' in state else 0
+        col = ansi_colors[color] + color_offset
+        mod = ''.join([states[x] for x in state])
 
-    col = ansi_colors[color] + color_offset
-    mod = ''.join([states[x] for x in state])
-
-    if prompt:
         return f'\001\033[{mod}{col}m\002{text}\001\033[00m\002'
-    else:
-        return f'\033{mod}{col}m{text}\033[00m'
 
 
 def displayhook_pprint(value: Any) -> None:
@@ -222,6 +218,9 @@ if __name__ == '__main__':
 
         # Variables
         histfile,
+
+        # Classes
+        CustomPrompt,
 
         # Functions
         displayhook_pprint,
