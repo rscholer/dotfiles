@@ -20,6 +20,7 @@
 # THE SOFTWARE.
 """This file will be executed when running python as a shell."""
 import atexit
+import contextlib
 from importlib import reload  # noqa: Imported for convenience.
 import json  # noqa: Imported for convenience.
 import os
@@ -33,6 +34,94 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+
+
+class CommonDirectories:
+    """Commonly used directories.
+
+    Attributes
+    ----------
+    HOME : pathlib.Path
+        Home directory.
+    XDG_CACHE_HOME : pathlib.Path
+        User cache data.
+    XDG_CONFIG_DIRS : List[pathlib.Path]
+        Directories containing configuration data.
+    XDG_CONFIG_HOME : pathlib.Path
+        User configuration data.
+    XDG_DATA_DIRS : List[pathlib.Path]
+        Directories containing persistend data.
+    XDG_DATA_HOME : pathlib.Path
+        Persistent user data.
+    XDG_DESKTOP_DIR : pathlib.Path
+        Files found on the desktop.
+    XDG_DOWNLOAD_DIR : pathlib.Path
+        Downloaded files.
+    XDG_MUSIC_DIR : pathlib.Path
+        Music files.
+    XDG_PICTURES_DIR : pathlib.Path
+        Picture files.
+    XDG_PUBLICSHARE_DIR : pathlib.Path
+        Publicly shared files (e.g. over SAMBA).
+    XDG_RUNTIME_DIR : pathlib.Path
+        Runtime files.
+    XDG_TEMPLATES_DIR : pathlib.Path
+        File templates.
+    XDG_VIDEOS_DIR : pathlib.Path
+        Video files.
+
+    """
+
+    def __init__(self) -> None:
+        """Initialize object."""
+        self.HOME = pathlib.Path().home()
+
+        # XDG Base directories
+        self.XDG_CACHE_HOME = pathlib.Path(
+            os.getenv('XDG_CACHE_HOME', self.HOME / '.cache')
+        )
+        self.XDG_CONFIG_HOME = pathlib.Path(
+            os.getenv('XDG_CACHE_HOME', self.HOME / '.config')
+        )
+        self.XDG_DATA_HOME = pathlib.Path(
+            os.getenv('XDG_DATA_HOME', self.HOME / '.local/share')
+        )
+        self.XDG_RUNTIME_DIR = pathlib.Path(os.environ['XDG_RUNTIME_DIR'])
+
+        # XDG User directories
+        self.XDG_DESKTOP_DIR = self.HOME
+        self.XDG_DOCUMENTS_DIR = self.HOME
+        self.XDG_DOWNLOAD_DIR = self.HOME
+        self.XDG_MUSIC_DIR = self.HOME
+        self.XDG_PICTURES_DIR = self.HOME
+        self.XDG_PUBLICSHARE_DIR = self.HOME
+        self.XDG_TEMPLATES_DIR = self.HOME
+        self.XDG_VIDEOS_DIR = self.HOME
+
+        with contextlib.suppress(OSError):
+            config = re.sub(
+                r'\$HOME', str(self.HOME),
+                (self.XDG_CONFIG_HOME / 'user-dirs.dirs').read_text()
+            )
+
+            for name, path in re.findall(r'^\s*(\w*)="(.*)"\s*$', config, re.MULTILINE):
+                self.__setattr__(name, pathlib.Path(path))
+
+        # XDG additional directories
+        self.XDG_CONFIG_DIRS = os.getenv('XDG_CONFIG_HOME', '/etc/xdg')
+        self.XDG_DATA_DIRS = os.getenv('XDG_DATA_HOME', '/usr/local/share:/usr/share')
+
+        for name in ['CONFIG', 'DATA']:
+            self.__setattr__(
+                'XDG_' + name + '_DIRS',
+                (
+                    [self.__getattribute__('XDG_' + name + '_HOME')] +
+                    [
+                        pathlib.Path(x)
+                        for x in self.__getattribute__('XDG_' + name + '_DIRS').split(':')
+                    ]
+                )
+            )
 
 
 class CustomPrompt:
@@ -255,13 +344,12 @@ def timed(stmt: str = '', setup: str = '', globals_: Optional[Dict[str, Any]] = 
 
 
 if __name__ == '__main__':
+    cdr = CommonDirectories()
+
     ################################
     # History
     ################################
-    histfile = (
-        pathlib.Path(os.getenv('XDG_CACHE_HOME', '~/.cache')).expanduser() /
-        f'python{sys.version_info.major}_history'
-    )
+    histfile = cdr.XDG_CACHE_HOME / f'python{sys.version_info.major}_history'
 
     # Constrict history size
     readline.set_history_length(1000)
@@ -305,6 +393,7 @@ if __name__ == '__main__':
     del (
         # Modules
         atexit,
+        contextlib,
         readline,
         rlcompleter,
 
@@ -319,6 +408,7 @@ if __name__ == '__main__':
         histfile,
 
         # Classes
+        CommonDirectories,
         CustomPrompt,
 
         # Functions
