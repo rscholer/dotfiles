@@ -21,7 +21,7 @@
 
 # Load external plugins.
 
-export FAST_WORK_DIR="${ZCACHDIR}/fsh"
+export FAST_WORK_DIR="${ZCACHEDIR}/fsh"
 
 zpm load 'zsh-autopair'
 zpm load 'zsh-completions'
