@@ -36,7 +36,8 @@ from typing import Optional
 class CustomPrompt:
     """Create a colorized prompt and report actual prompt length."""
 
-    def __init__(self, text: str, color: str, state: Optional[List[str]] = None) -> None:
+    def __init__(self, text: str, color: str, state: Optional[List[str]] = None,
+                 suffix: str = ' ') -> None:
         """Initialize object.
 
         Parameters
@@ -50,6 +51,8 @@ class CustomPrompt:
         state :
             List of states: `bold`, `bright`, `regular` or `bright`.
             If set to `None`, fall back to `bold`.
+        suffix :
+            Prompt suffix.
 
         Returns
         -------
@@ -58,6 +61,7 @@ class CustomPrompt:
         """
         self.color = color
         self.state = state or ['bold']
+        self.suffix = suffix
         self.text = text
 
     def __len__(self) -> int:
@@ -71,7 +75,7 @@ class CustomPrompt:
             Adjusted length of prompt.
 
         """
-        return len(self.text) + 1
+        return len(self.text) + len(self.suffix)
 
     def __str__(self) -> str:
         """Add ANSI color escape sequences to a text.
@@ -82,7 +86,7 @@ class CustomPrompt:
             Modified text.
 
         """
-        return self.ansi_colorize(self.text, self.color, self.state) + ' '
+        return self.ansi_colorize(self.text, self.color, self.state) + self.suffix
 
     @staticmethod
     def ansi_colorize(text: str, color: str, state: Optional[List[str]] = None) -> str:
