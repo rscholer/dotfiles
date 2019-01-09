@@ -8,7 +8,7 @@ might prove to be of interest to others.
 All scripts are used and tested under [Arch Linux][1] and [Arch Linux 32][2].
 
 Please [let me know][3], if and what changes are needed to support other
-GNU/Linux distributions and operating systems.
+GNU/Linux distributions.
 
 Installation
 ------------
